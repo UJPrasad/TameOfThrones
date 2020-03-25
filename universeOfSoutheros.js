@@ -12,7 +12,7 @@ class UniverseOfSoutheros {
         if (!this.kingdoms[kingdom]) return true;
         const key = this.kingdoms[kingdom].length;
         const decrypted = this.decryptMessage(message, key);
-        if (this.isSupporter(kingdom, decrypted)) this.supporters.push(kingdom);
+        if (this.isSupporter(kingdom, decrypted) && !this.supporters.includes(kingdom)) this.supporters.push(kingdom);
         return true;
     }
 
