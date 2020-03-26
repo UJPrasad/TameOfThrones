@@ -1,58 +1,37 @@
+const Kingdom = require('./Kindom');
+
 class UniverseOfSoutheros {
-    constructor(kingdoms) {
-        //// kingdoms will object 
-        /// with key as Kingdom name 
-        // and value of animal to it
-        this.kingdoms = kingdoms;
-        this.supporters = [];
-        this.alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    constructor() {
+        this.kingdoms = [
+            new Kingdom('SPACE', 'GORILLA'), 
+            new Kingdom('LAND', 'PANDA'),
+            new Kingdom('WATER', 'OCTOPUS'),
+            new Kingdom('ICE', 'MAMMOTH'),
+            new Kingdom('AIR', 'OWL'),
+            new Kingdom('FIRE', 'DRAGON')
+        ];
     }
 
-    receiveMessage(kingdom, message) {
-        if (!this.kingdoms[kingdom]) return true;
-        const key = this.kingdoms[kingdom].length;
-        const decrypted = this.decryptMessage(message, key);
-        if (this.isSupporter(kingdom, decrypted) && !this.supporters.includes(kingdom)) this.supporters.push(kingdom);
-        return true;
+    getKingdomNames() {
+        return this.kingdoms.map(x => x.name);
     }
 
-    decryptMessage(message, key) {
-        let newMessage = "";
-        for (let i = 0; i < message.length; i++) {
-            const index = this.alphabets.indexOf(message[i]);
-            if (index > -1) {
-                newMessage += this.alphabets[this.getCircularIndex(index, key)];
-            } else {
-                newMessage += message[i];
-            }
-        }
-        return newMessage;
+    getKingdomIndex(name) {
+        return this.kingdoms.findIndex(x => x.name === name);
     }
 
-    getCircularIndex(index, increment) {
-        return index - increment < 0 ? (26 - (increment - index)) : index - increment;
+    postMan(from, to, message) {
+        if (!this.getKingdomNames().includes(from)) return;
+        const index = this.getKingdomIndex(to);
+        if (index > -1) this.kingdoms[index].receiveMessage(message);
     }
 
-    isSupporter(kingdom, message) {
-        const animal = this.kingdoms[kingdom];
-        message = message.split("");
-        for(let i = 0; i < animal.length; i++) {
-            const index = message.indexOf(animal[i]);
-            if (index > -1) {
-                message.splice(index, 1);
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    finalSupporters() {
-        if(this.supporters.length < 3) return 'NONE';
-        else return 'SPACE ' + this.supporters.join(' ');
+    getFinalAlliancedKingdoms() {
+        const supporters = this.kingdoms.map(x => x.willSupport ? x.name : null).filter(x => x);
+        if(supporters.length < 3) return 'NONE';
+        else return 'SPACE ' + supporters.join(' ');
     }
 }
 
-
 // returning singleton instance of this class
-module.exports = new UniverseOfSoutheros({ LAND: 'PANDA', WATER: 'OCTOPUS', ICE: 'MAMMOTH', AIR: 'OWL', FIRE: 'DRAGON' });
+module.exports = new UniverseOfSoutheros();

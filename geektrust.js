@@ -8,8 +8,8 @@ try {
     if (args.length !== 1) throw new Error(errors.USAGE_ERROR);
     const file = fs.readFileSync(args[0], 'utf8');
     const contents = file.split('\n').map(x => x.trim()).filter(p => p);
-    contents.forEach(str => universeOfSoutheros.receiveMessage(str.substr(0,str.indexOf(' ')).toUpperCase(),  str.substr(str.indexOf(' ')+1).toUpperCase()));
-    console.log(universeOfSoutheros.finalSupporters());
+    contents.forEach(str => universeOfSoutheros.postMan('SPACE', str.substr(0,str.indexOf(' ')).toUpperCase(),  str.substr(str.indexOf(' ')+1).toUpperCase()));
+    console.log(universeOfSoutheros.getFinalAlliancedKingdoms());
 } catch (e) {
     console.log(e);
 }
