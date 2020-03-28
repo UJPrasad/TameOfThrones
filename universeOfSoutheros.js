@@ -21,15 +21,10 @@ class UniverseOfSoutheros {
     }
 
     postMan(from, to, message) {
-        if (!this.getKingdomNames().includes(from)) return;
+        if (!this.getKingdomNames().includes(from)) return true;
         const index = this.getKingdomIndex(to);
-        if (index > -1) this.kingdoms[index].receiveMessage(message);
-    }
-
-    getFinalAlliancedKingdoms() {
-        const supporters = this.kingdoms.map(x => x.willSupport ? x.name : null).filter(x => x);
-        if(supporters.length < 3) return 'NONE';
-        else return 'SPACE ' + supporters.join(' ');
+        if (index > -1) this.kingdoms[index].receiveMessage(from, message);
+        return true;
     }
 }
 
