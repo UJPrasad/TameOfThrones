@@ -1,4 +1,4 @@
-const helper =  require('./constants');
+const utils =  require('./tameOfThronesUtils');
 
 class Kingdom {
     constructor(name, animal) {
@@ -8,7 +8,7 @@ class Kingdom {
     }
 
     receiveMessage(from, message) {
-        if (helper.decryptMessage(this.animal, message) && !this.willSupport) this.willSupport = from;
+        if (utils.decryptMessage(this.animal, message) && !this.willSupport) this.willSupport = from;
         return true;
     }
 }

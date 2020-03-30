@@ -1,4 +1,4 @@
-class Helper {
+class TameOfThronesUtils {
     alphabets = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
     decryptMessage(animal, message) {
@@ -30,6 +30,12 @@ class Helper {
         }
         return true;
     }
+
+    getAlliancesByName(universe, name) {
+        const supporters = universe.kingdoms.filter(x => x.willSupport === name).map(x => x.name);
+        if(supporters.length < 3) return 'NONE';
+        else return `${name} ` + supporters.join(' ');
+    }
 }
 
-module.exports = new Helper();
+module.exports = new TameOfThronesUtils();
